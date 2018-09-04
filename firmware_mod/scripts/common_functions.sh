@@ -312,7 +312,27 @@ motion_send_mail(){
   esac                                                                                                                                                             
 } 
 
-
+# Control the motion detection send telegram function                                                                                                                            
+motion_send_telegram(){                                                                                                                                                
+  case "$1" in                                                                                                                                                     
+  on)                                                                                                                                                              
+    rewrite_config /system/sdcard/config/motion.conf send_telegram "true"
+    ;;                                                                                                                                                             
+  off)                                                                                                                                                             
+    rewrite_config /system/sdcard/config/motion.conf send_telegram "false"
+    ;;                                                                                                                                                             
+  status)                                                                                                                                                          
+    status=`awk '/send_telegram/' /system/sdcard/config/motion.conf |cut -f2 -d \=`                                                                                                          
+    case $status in                                                                                                                                                
+      false)                                                                                                                                                          
+        echo "OFF"                                                                                                                                                 
+        ;;                                                                                                                                                         
+      true)                                                                                                                                                           
+        echo "ON"                                                                                                                                                  
+        ;;                                                                                                                                                         
+    esac                                                                                                                                                           
+  esac                                                                                                                                                             
+} 
 
 # Control the motion tracking function
 motion_tracking(){
